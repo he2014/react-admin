@@ -1,11 +1,12 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import { HashRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
 import Loading from '../components/Loading';
-// import Login from "../components/pages/login/login"
-// import Container from "../components/pages/container/Container"
-//import NotFound from "../components/pages/404/NoFound"
+import createHistory from 'history/createHashHistory'
+//createBrowserHistory
+const history = createHistory()
+
 const Login = Loadable({
     loader: () => import("../components/pages/login/login"),
     loading: Loading
@@ -23,7 +24,7 @@ class RouterPage extends Component {
     render() {
         const { token } = this.props.saveToken;
         const isToken = token || sessionStorage.getItem("token");
-        return <Router>
+        return <Router history={history} >
             <Switch>
                 <Route exact path="/" render={() => isToken ? <Redirect to="/admin/home" /> : <Redirect to="/login" />} />
                 <Route exact path="/login" component={Login} />
