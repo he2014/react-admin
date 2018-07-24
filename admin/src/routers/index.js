@@ -6,6 +6,7 @@ import { Route, Redirect, Switch } from 'react-router-dom';
 import AllComponents from '../components/AllComponent';
 import routesConfig from './config';
 
+
 export default class CRouter extends Component {
 
     render() {

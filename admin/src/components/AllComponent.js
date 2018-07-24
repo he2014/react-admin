@@ -1,12 +1,26 @@
+import Loadable from 'react-loadable';
+import Loading from './Loading';
 
-
-import Home from "./home/Home"
-import Userdetail from "./pages/users/Userdetail";
-import Usermessage from "./pages/users/Usermessage";
-import Chatmonitor from "./pages/monitor/Chatmonitor";
-import Videomonitor from "./pages/monitor/Videomonitor"
-
-
+const Home = Loadable({
+    loader: () => import("./home/Home"),
+    loading: Loading,
+});
+const Userdetail = Loadable({
+    loader: () => import("./pages/users/Userdetail"),
+    loading: Loading,
+});
+const Usermessage = Loadable({
+    loader: () => import("./pages/users/Usermessage"),
+    loading: Loading
+});
+const Chatmonitor = Loadable({
+    loader: () => import("./pages/monitor/Chatmonitor"),
+    loading: Loading
+});
+const Videomonitor = Loadable({
+    loader: () => import("./pages/monitor/Videomonitor"),
+    loading: Loading
+});
 
 export default {
     Home, Userdetail, Usermessage, Chatmonitor, Videomonitor

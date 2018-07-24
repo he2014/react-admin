@@ -1,0 +1,23 @@
+{
+    "presets": [
+        "react",
+        [
+            "env",
+            {
+                "targets": {
+                    "browsers": [
+                        "> 1%",
+                        "last 2 versions",
+                        "not ie <= 8"
+                    ]
+                },
+                "useBuiltIns": true
+            }
+        ]
+    ],
+    "plugins": [
+        "transform-object-rest-spread",
+        "react-html-attrs",
+        "syntax-dynamic-import"
+    ]
+}
