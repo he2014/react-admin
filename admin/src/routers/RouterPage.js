@@ -7,10 +7,11 @@ import NotFound from "../components/pages/404/NoFound"
 
 class RouterPage extends Component {
     render() {
-        let { token } = this.props.saveToken;
+        const { token } = this.props.saveToken;
+        const isToken = token || sessionStorage.getItem("token");
         return <Router>
             <Switch>
-                <Route exact path="/" render={() => token ? <Redirect to="/admin/home" /> : <Redirect to="/login" />} />
+                <Route exact path="/" render={() => isToken ? <Redirect to="/admin/home" /> : <Redirect to="/login" />} />
                 <Route exact path="/login" component={Login} />
                 <Route path="/admin" component={Container} />
                 <Route component={NotFound} />

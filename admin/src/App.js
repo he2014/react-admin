@@ -10,9 +10,9 @@ class App extends Component {
       <div className="App">
         <AppContainer>
           <Provider store={store}>
-            <div>
-              <RouterPage />
-            </div>
+            <section>
+              <RouterPage store={store} />
+            </section>
           </Provider>
         </AppContainer>
       </div>

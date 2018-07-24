@@ -1,15 +1,57 @@
 import React, { Component } from 'react';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 import RoutesComponent from "../../../routers"
-class Container extends Component {
+import Siders from "../sider/Siders"
+import { Layout, Menu, Icon } from 'antd';
+const { Header, Content, Footer, Sider } = Layout;
 
+class Container extends Component {
+    state = {
+        collapsed: false,
+    };
+
+    toggle = () => {
+        this.setState({
+            collapsed: !this.state.collapsed,
+        });
+    }
     render() {
+        const { token } = this.props.saveToken;
         return (
-            <div>
-                <RoutesComponent />
-            </div>
+            <section>
+                <Layout style={{ height: "100%" }}>
+                    <Siders collapsed={this.state.collapsed} />
+                    <Layout>
+                        <Header className="header-main" >
+                            <Icon style={{ float: "left", }}
+                                className="trigger"
+                                type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
+                                onClick={this.toggle}
+                            />
+                        </Header>
+                        <Content style={{ margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280 }}>
+                            <RoutesComponent token={token} />
+                        </Content>
+                        <Footer>
+                            Copyright © 2018  FISSION 版权所有
+                        </Footer>
+                    </Layout>
+                </Layout>
+                <style>
+                    {
+                        `
+                        .header-main{
+                            background: whitesmoke;
+                            box-shadow: 0 1px 1px #666;
+                            color: black;
+                        }`
+                    }
+                </style>
+            </section>
         );
     }
 }
 
-export default Container
+export default connect(state => ({
+    saveToken: state.saveToken
+}))(Container)
