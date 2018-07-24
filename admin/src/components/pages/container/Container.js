@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import RoutesComponent from "../../../routers"
 import Siders from "../sider/Siders"
-import { Layout, Menu, Icon } from 'antd';
-const { Header, Content, Footer, Sider } = Layout;
+import { Layout, Icon } from 'antd';
+const { Header, Content, Footer } = Layout;
 
 class Container extends Component {
     state = {
