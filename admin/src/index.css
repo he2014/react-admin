@@ -7,12 +7,19 @@ body {
   height: 100%;
 }
 div.header-main{
-  justify-content: space-between;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
   color: #000;
   padding: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 div.header-main i:nth-child(1){
   margin-left: 20px;
+  cursor: pointer;
 }
