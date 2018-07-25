@@ -3,9 +3,9 @@ import { HashRouter as Router, Switch, Route, Redirect } from "react-router-dom"
 import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
 import Loading from '../components/Loading';
-import createHistory from 'history/createHashHistory'
+//import createHistory from 'history/createHashHistory'
 //createBrowserHistory
-const history = createHistory()
+//const history = createHistory()
 
 const Login = Loadable({
     loader: () => import("../components/pages/login/login"),
@@ -24,7 +24,7 @@ class RouterPage extends Component {
     render() {
         const { token } = this.props.saveToken;
         const isToken = token || sessionStorage.getItem("token");
-        return <Router history={history} >
+        return <Router  >
             <Switch>
                 <Route exact path="/" render={() => isToken ? <Redirect to="/admin/home" /> : <Redirect to="/login" />} />
                 <Route exact path="/login" component={Login} />

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import RoutesComponent from "../../../routers"
 import Siders from "../sider/Siders"
 import { Layout, Icon } from 'antd';
+import HeaderCustom from "../header/HeaderCustom"
 const { Header, Content, Footer } = Layout;
 
 class Container extends Component {
@@ -28,6 +29,7 @@ class Container extends Component {
                                 type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
                                 onClick={this.toggle}
                             />
+                            <HeaderCustom {...this.props} />
                         </Header>
                         <Content style={{ margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280 }}>
                             <RoutesComponent token={token} />
