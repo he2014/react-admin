@@ -3,14 +3,14 @@ import React, { Component } from 'react';
 class Home extends Component {
     render() {
         return (
-            <div className="threeD">
+            <div className="threeD" >
                 欢迎使用 FISSION 后台管理系统
 
                 <style>
                     {`
                         
                         .threeD{ 
-                            color:#fff;  
+                            color:#fff ;  
                             font-size: 40px;
                             text-shadow: 0 0 1px #999, 
                             1px 1px 2px #888, 

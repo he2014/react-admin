@@ -16,9 +16,16 @@ export default {
                 { key: "/admin/monitor/video", title: "视频监控", component: "Videomonitor" },
                 { key: "/admin/monitor/chat", title: "语聊监控", component: "Chatmonitor" }
             ]
+        },
+        {
+            key: "/admin/data", title: "数据中心", icon: "profile",
+            subs: [
+                { key: "/admin/data/table", title: "Table", component: "DynamicTable" },
+                { key: "/admin/data/Echarts", title: "数据可视化", component: "Echarts" },
+                { key: "/admin/data/ExportExcel", title: "表格导出excel", component: "ExportExcel" },
+                { key: "/admin/data/ImportExcel", title: "导入Excel", component: "ImportExcel" }
+            ]
         }
-
-
     ]
 
 }

@@ -23,3 +23,8 @@ div.header-main i:nth-child(1){
   margin-left: 20px;
   cursor: pointer;
 }
+.title-bar{
+  background: #f2f2f2;
+   padding: 10px ;
+  
+}
