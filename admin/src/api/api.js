@@ -19,6 +19,16 @@ class API extends Server {
             throw error;
         }
     }
+    async getRecord(params) {//登陆
+        try {
+            let result = await this.axiosGet("mock/5b56b4e68912d82e135bc81e/example/get/user/exchange", params);
+            if (result && result instanceof Object && result.code === 0) return result.dataInfo;
+            else this.resultCode(result.code);
+        } catch (error) {
+            throw error;
+        }
+    }
+
 
     resultCode(code) {
 

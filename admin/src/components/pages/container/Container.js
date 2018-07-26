@@ -31,10 +31,10 @@ class Container extends Component {
                             />
                             <HeaderCustom {...this.props} />
                         </Header>
-                        <Content style={{ margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280 }}>
+                        <Content className="ALL-CONNENT" style={{ margin: '24px 16px', padding: 24, background: '#fff', minHeight: "280px" }}>
                             <RoutesComponent token={token} />
                         </Content>
-                        <Footer>
+                        <Footer style={{ padding: 0 }}>
                             Copyright © 2018  FISSION 版权所有
                         </Footer>
                     </Layout>
@@ -42,6 +42,11 @@ class Container extends Component {
                 <style>
                     {
                         `
+                        .ALL-CONNENT{
+                            overflow: hidden;
+                            overflow-y: scroll;
+                            position:relative;
+                        }
                         .header-main{
                             background: whitesmoke;
                             box-shadow: 0 1px 1px #666;
