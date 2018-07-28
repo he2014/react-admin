@@ -67,9 +67,6 @@ class EditableTable extends Component {
 
     }
     componentDidMount() {
-        window.addEventListener("beforeunload", function () {
-            alert(5)
-        })
         this.getTableData();
 
 
