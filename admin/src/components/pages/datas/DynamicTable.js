@@ -67,7 +67,12 @@ class EditableTable extends Component {
 
     }
     componentDidMount() {
+        window.addEventListener("beforeunload", function () {
+            alert(5)
+        })
         this.getTableData();
+
+
     }
     handleDelete = async (key) => { //删除记录 
         const dataSource = Immutable.List([...this.state.dataSource]);
