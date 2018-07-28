@@ -1,137 +1,50 @@
 import React, { Component } from 'react';
 import http from "../../../api/api"
+import TableCustom from "./TableCustom"
+import { Table, Spin, Popconfirm } from 'antd';
+import Immutable from "immutable";
+import NewCreateTable from "./NewCreateTable"//自定义表单组件， antd 的CollectionCreateForm 组件已经集成 此功能
 
-
-import { Table, Input, Button, Popconfirm, Form } from 'antd';
-
-const FormItem = Form.Item;
-const EditableContext = React.createContext();
-
-const EditableRow = ({ form, index, ...props }) => (
-    <EditableContext.Provider value={form}>
-        <tr {...props} />
-    </EditableContext.Provider>
-);
-
-const EditableFormRow = Form.create()(EditableRow);
-
-class EditableCell extends React.Component {
-    state = {
-        editing: false,
-    }
-
-    componentDidMount() {
-        if (this.props.editable) {
-            document.addEventListener('click', this.handleClickOutside, true);
-        }
-    }
-
-    componentWillUnmount() {
-        if (this.props.editable) {
-            document.removeEventListener('click', this.handleClickOutside, true);
-        }
-    }
-
-    toggleEdit = () => {
-        const editing = !this.state.editing;
-        this.setState({ editing }, () => {
-            if (editing) {
-                this.input.focus();
-            }
-        });
-    }
-
-    handleClickOutside = (e) => {
-        const { editing } = this.state;
-        if (editing && this.cell !== e.target && !this.cell.contains(e.target)) {
-            this.save();
-        }
-    }
-
-    save = () => {
-        const { record, handleSave } = this.props;
-        this.form.validateFields((error, values) => {
-            if (error) {
-                return;
-            }
-            this.toggleEdit();
-            handleSave({ ...record, ...values });
-        });
-    }
-
-    render() {
-        const { editing } = this.state;
-        const {
-            editable,
-            dataIndex,
-            title,
-            record,
-            index,
-            handleSave,
-            ...restProps
-        } = this.props;
-        return (
-            <td ref={node => (this.cell = node)} {...restProps}>
-                {editable ? (
-                    <EditableContext.Consumer>
-                        {(form) => {
-                            this.form = form;
-                            return (
-                                editing ? (
-                                    <FormItem style={{ margin: 0 }}>
-                                        {form.getFieldDecorator(dataIndex, {
-                                            rules: [{
-                                                required: true,
-                                                message: `${title} is required.`,
-                                            }],
-                                            initialValue: record[dataIndex],
-                                        })(
-                                            <Input
-                                                ref={node => (this.input = node)}
-                                                onPressEnter={this.save}
-                                            />
-                                        )}
-                                    </FormItem>
-                                ) : (
-                                        <div
-                                            className="editable-cell-value-wrap"
-                                            style={{ paddingRight: 24 }}
-                                            onClick={this.toggleEdit}
-                                        >
-                                            {restProps.children}
-                                        </div>
-                                    )
-                            );
-                        }}
-                    </EditableContext.Consumer>
-                ) : restProps.children}
-            </td>
-        );
-    }
-}
-
-class EditableTable extends React.Component {
+class EditableTable extends Component {
     constructor(props) {
         super(props);
         this.columns = [{
-            title: 'name',
-            dataIndex: 'name',
-            width: '30%',
+            title: '用户Id',
+            dataIndex: 'userId',
+
+        }, {
+            title: '金额(美分)',
+            dataIndex: 'money',
             editable: true,
         }, {
-            title: 'age',
-            dataIndex: 'age',
-        }, {
-            title: 'address',
-            dataIndex: 'address',
-        }, {
-            title: 'operation',
-            dataIndex: 'operation',
+            title: '金币',
+            dataIndex: 'balance',
+            editable: true,
+        },
+        {
+            title: '返还金币',
+            dataIndex: 'returnBalance',
+            editable: true,
+        }
+            ,
+        {
+            title: '国家',
+            dataIndex: 'currency',
+
+        }
+            ,
+        {
+            title: '充值流水号',
+            dataIndex: 'rechargeSerialId',
+        }
+            , {
+            title: '操作',
+            dataIndex: '',
             render: (text, record) => {
                 return (
                     this.state.dataSource.length > 1
                         ? (
-                            <Popconfirm title="Sure to delete?" onConfirm={() => this.handleDelete(record.key)}>
+                            <Popconfirm title="Sure to delete?" onConfirm={() => this.handleDelete(record.rechargeSerialId)}>
                                 <a href="javascript:;">Delete</a>
                             </Popconfirm>
                         ) : null
@@ -140,53 +53,35 @@ class EditableTable extends React.Component {
         }];
 
         this.state = {
-            dataSource: [{
-                key: '0',
-                name: 'Edward King 0',
-                age: '32',
-                address: 'London, Park Lane no. 0',
-            }, {
-                key: '1',
-                name: 'Edward King 1',
-                age: '32',
-                address: 'London, Park Lane no. 1',
-            }],
-            count: 2,
+            loading: false,
+
+
         };
     }
-
-    handleDelete = (key) => {
-        const dataSource = [...this.state.dataSource];
-        this.setState({ dataSource: dataSource.filter(item => item.key !== key) });
-    }
-
-    handleAdd = () => {
-        const { count, dataSource } = this.state;
-        const newData = {
-            key: count,
-            name: `Edward King ${count}`,
-            age: 32,
-            address: `London, Park Lane no. ${count}`,
-        };
+    getTableData = async () => {
+        const result = await http.getRecord();
         this.setState({
-            dataSource: [...dataSource, newData],
-            count: count + 1,
-        });
+            loading: true,
+            dataSource: result.data,
+        })
+
+    }
+    componentDidMount() {
+        this.getTableData();
+    }
+    handleDelete = async (key) => { //删除记录 
+        const dataSource = Immutable.List([...this.state.dataSource]);
+        const newDataSource = dataSource.filter(item => item.rechargeSerialId !== key).toJS();
+        await http.deleteExchangeRecord({ id: key });
+        this.setState({ dataSource: newDataSource });
     }
 
     handleSave = (row) => {
-        const newData = [...this.state.dataSource];
-        const index = newData.findIndex(item => row.key === item.key);
-        const item = newData[index];
-        newData.splice(index, 1, {
-            ...item,
-            ...row,
-        });
-        this.setState({ dataSource: newData });
-    }
 
+    }
     render() {
         const { dataSource } = this.state;
+        const { EditableFormRow, EditableCell } = TableCustom;
         const components = {
             body: {
                 row: EditableFormRow,
@@ -209,18 +104,26 @@ class EditableTable extends React.Component {
             };
         });
         return (
-            <div>
-                <Button onClick={this.handleAdd} type="primary" style={{ marginBottom: 16 }}>
-                    Add a row
-        </Button>
-                <Table
-                    components={components}
-                    rowClassName={() => 'editable-row'}
-                    bordered
-                    dataSource={dataSource}
-                    columns={columns}
-                />
+
+            <div>{
+                !this.state.loading ? <div className="http-loading"><Spin tip="Loading..." /></div>
+                    : <div>
+                        <NewCreateTable style={{ marginBottom: 16 }} />
+                        <Table
+                            components={components}
+                            rowClassName={() => 'editable-row'}
+                            bordered
+                            dataSource={dataSource}
+                            columns={columns}
+                            rowKey={(row) => {
+                                return row.rechargeSerialId
+                            }}
+                        />
+                    </div>
+            }
+
             </div>
+
         );
     }
 }

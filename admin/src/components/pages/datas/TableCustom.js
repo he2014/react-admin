@@ -1,18 +1,25 @@
 import React, { Component } from 'react';
-import { Input, Button, Popconfirm, Form } from 'antd';
+import { Input, Form } from 'antd';
+import Immutable from "immutable";
+import PropsTypes from "prop-types";
 
 const FormItem = Form.Item;
 const EditableContext = React.createContext();
-const Provider = EditaableRow.Provider;
-const Consumer = EditableContext.Consumer;
-const EditaableRow = ({ form, index, ...props }) => (
+const Provider = EditableContext.Provider
+const Consumer = EditableContext.Consumer
+
+const EditableRow = ({ form, index, ...props }) => (
     <Provider value={form}>
         <tr {...props} />
     </Provider>
-)
-const EditableFormRow = Form.create()(EditaableRow);
-
+);
+const EditableFormRow = Form.create()(EditableRow);
 class EditableCell extends Component {
+    static propTypes = {
+        editable: PropsTypes.bool,
+        handleSave: PropsTypes.func
+
+    }
     state = {
         editing: false,
     }
@@ -52,7 +59,9 @@ class EditableCell extends Component {
                 return;
             }
             this.toggleEdit();
-            handleSave({ ...record, ...values });
+            const ImmutableValue = Immutable.Map(values);
+            const ImmutableRecord = Immutable.Map(record);
+            handleSave(ImmutableRecord.merge(ImmutableValue).toJS());
         });
     }
 
@@ -67,11 +76,13 @@ class EditableCell extends Component {
             handleSave,
             ...restProps
         } = this.props;
+        // console.log(this.props)
         return (
             <td ref={node => (this.cell = node)} {...restProps}>
                 {editable ? (
                     <Consumer>
                         {(form) => {
+                            // console.log(this.cell)
                             this.form = form;
                             return (
                                 editing ? (
@@ -86,6 +97,7 @@ class EditableCell extends Component {
                                             <Input
                                                 ref={node => (this.input = node)}
                                                 onPressEnter={this.save}
+                                                size="small"
                                             />
                                         )}
                                     </FormItem>
