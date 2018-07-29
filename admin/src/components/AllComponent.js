@@ -29,19 +29,12 @@ const Echarts = Loadable({
     loader: () => import("./pages/datas/Echarts"),
     loading: Loading
 });
-const ExportExcel = Loadable({
-    loader: () => import("./pages/datas/ExportExcel"),
-    loading: Loading
-});
-const ImportExcel = Loadable({
-    loader: () => import("./pages/datas/ImportExcel"),
-    loading: Loading
-});
+
 
 
 export default {
     Home, Userdetail, Usermessage, Chatmonitor, Videomonitor, DynamicTable,
-    Echarts, ExportExcel, ImportExcel
+    Echarts
 
 
 }
