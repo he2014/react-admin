@@ -12,7 +12,7 @@ class App extends Component {
         <AppContainer>
           <Provider store={store}>
             <section>
-              <RouterPage store={store} />
+              <RouterPage />
             </section>
           </Provider>
         </AppContainer>

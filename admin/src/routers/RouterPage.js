@@ -24,7 +24,7 @@ class RouterPage extends Component {
     render() {
         const { token } = this.props.saveToken;
         const isToken = token || sessionStorage.getItem("token");
-        return <Router  >
+        return <Router>
             <Switch>
                 <Route exact path="/" render={() => isToken ? <Redirect to="/admin/home" /> : <Redirect to="/login" />} />
                 <Route exact path="/login" component={Login} />

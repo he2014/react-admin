@@ -10,6 +10,7 @@ export default (props) => {
         props.history.replace("/login");
     }
     const onClick = function ({ key }) {
+        alert(key)
         switch (Number(key)) {
             case 1:
                 loginOut();

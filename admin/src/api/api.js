@@ -3,7 +3,7 @@ import Server from "./server"
 class API extends Server {
     async login(params) {//登陆
         try {
-            let result = await this.axiosPost("mock/5b56b4e68912d82e135bc81e/example/admin/login", params);
+            let result = await this.axiosPost("mock/5b56b4e68912d82e135bc81e/api/admin/login", params);
             if (result && result instanceof Object && result.code === 0) return result.dataInfo;
             else this.resultCode(result.code);
         } catch (error) {
@@ -21,7 +21,7 @@ class API extends Server {
     }
     async getRecord(params) {//登陆
         try {
-            let result = await this.axiosGet("mock/5b56b4e68912d82e135bc81e/example/get/user/exchange", params);
+            let result = await this.axiosGet("mock/5b56b4e68912d82e135bc81e/api/get/user/exchange", params);
             if (result && result instanceof Object && result.code === 0) return result.dataInfo;
             else this.resultCode(result.code);
         } catch (error) {
@@ -39,7 +39,7 @@ class API extends Server {
     }
     async submitTable(params) {//
         try {
-            let result = await this.axiosPost("mock/5b56b4e68912d82e135bc81e/example/delete/record/exchange", params);
+            let result = await this.axiosGet("mock/5b56b4e68912d82e135bc81e/api/get/user/exchange", params);
             if (result && result instanceof Object && result.code === 0) return result.dataInfo;
             else this.resultCode(result.code);
         } catch (error) {

@@ -54,16 +54,17 @@ class EditableTable extends Component {
 
         this.state = {
             loading: false,
-
+            dataSource: [],
 
         };
     }
     getTableData = async () => {
-        const result = await http.getRecord();
+        let results = await http.getRecord();
         this.setState({
             loading: true,
-            dataSource: result.data,
+            dataSource: results.data
         })
+
 
     }
     componentDidMount() {
@@ -79,7 +80,14 @@ class EditableTable extends Component {
     }
 
     handleSave = (row) => {
-
+        const data = Immutable.List([...this.state.dataSource]);
+        const index = data.findIndex(item => item.rechargeSerialId === row.rechargeSerialId);
+        const newData = data.delete(index).insert(index, row);
+        this.setState({
+            dataSource: newData.toJS()
+        })
+        console.log(row)
+        http.submitTable({ row });
     }
     render() {
         const { dataSource } = this.state;
